@@ -36,7 +36,6 @@ if (!window.justTabReloaderInjected) {
         }
 
         let remainingSeconds = Math.round(response.delay / 1000);
-        console.log(`[Just Tab Reloader] Webpage will auto-refresh in ${remainingSeconds} seconds (Hard Reload)...`);
 
         // 建立並插入倒數計時的浮動介面
         countdownDiv = document.createElement('div');

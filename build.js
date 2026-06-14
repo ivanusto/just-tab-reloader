@@ -14,9 +14,13 @@ const includeItems = [
   'popup.html',
   'popup.js',
   'popup.css',
+  'utils.js',
   'icons',
   '_locales'
 ];
+
+// 單一版本來源：package.json。建置時同步寫入兩個 manifest，避免版本號漂移。
+const pkgVersion = JSON.parse(fs.readFileSync(path.join(srcDir, 'package.json'), 'utf8')).version;
 
 function copyRecursiveSync(src, dest) {
   const exists = fs.existsSync(src);
@@ -51,9 +55,18 @@ includeItems.forEach(item => {
   }
 });
 
+// Sync version into the Chrome manifest from package.json
+const chromeManifestPath = path.join(chromeDir, 'manifest.json');
+const chromeManifest = JSON.parse(fs.readFileSync(chromeManifestPath, 'utf8'));
+chromeManifest.version = pkgVersion;
+fs.writeFileSync(chromeManifestPath, JSON.stringify(chromeManifest, null, 2));
+
 // Modify Firefox manifest
 const firefoxManifestPath = path.join(firefoxDir, 'manifest.json');
 const manifestData = JSON.parse(fs.readFileSync(firefoxManifestPath, 'utf8'));
+
+// 0. Sync version from package.json
+manifestData.version = pkgVersion;
 
 // 1. Add browser_specific_settings for Gecko
 manifestData.browser_specific_settings = {
@@ -66,9 +79,11 @@ manifestData.browser_specific_settings = {
   }
 };
 
-// 2. Convert service_worker to scripts for Firefox to avoid the warning
+// 2. Convert service_worker to scripts for Firefox to avoid the warning.
+//    Firefox event pages have no importScripts, so utils.js must be listed
+//    explicitly before background.js.
 if (manifestData.background && manifestData.background.service_worker) {
-  manifestData.background.scripts = [manifestData.background.service_worker];
+  manifestData.background.scripts = ["utils.js", manifestData.background.service_worker];
   delete manifestData.background.service_worker;
 }
 

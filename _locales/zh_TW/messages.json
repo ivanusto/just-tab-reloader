@@ -39,6 +39,10 @@
     "message": "最小值不能大於最大值。",
     "description": "Alert when min value is larger than max value"
   },
+  "restrictedPage": {
+    "message": "此頁面不支援自動重讀（瀏覽器內部頁面、擴充功能商店等）。",
+    "description": "Notice shown in popup when the active tab is a restricted page"
+  },
   "countdownText": {
     "message": "自動重讀: $SECONDS$s",
     "description": "Floating countdown text in content script",

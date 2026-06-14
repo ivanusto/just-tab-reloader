@@ -1,3 +1,7 @@
+// 預設的隨機區間（秒），需與 background.js 的預設值一致
+const DEFAULT_MIN = 30;
+const DEFAULT_MAX = 35;
+
 document.addEventListener('DOMContentLoaded', async () => {
     // 取得當前活躍的分頁
     const [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
@@ -70,12 +74,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         
         // 欄位留空時自動套用預設值
         if (minStr === "") {
-            minInput.value = "30";
-            minStr = "30";
+            minStr = String(DEFAULT_MIN);
+            minInput.value = minStr;
         }
         if (maxStr === "") {
-            maxInput.value = "35";
-            maxStr = "35";
+            maxStr = String(DEFAULT_MAX);
+            maxInput.value = maxStr;
         }
 
         const intRegex = /^[1-9]\d*$/;
@@ -101,12 +105,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         const isEnabled = e.target.checked;
         if (!isEnabled) {
             // 關閉時不需要驗證，直接送出關閉指令
-            chrome.runtime.sendMessage({ 
-                action: "update_tab_settings", 
-                tabId: tab.id, 
+            chrome.runtime.sendMessage({
+                action: "update_tab_settings",
+                tabId: tab.id,
                 enabled: false,
-                min: 30,
-                max: 35
+                min: DEFAULT_MIN,
+                max: DEFAULT_MAX
             });
             return;
         }

@@ -16,16 +16,23 @@ Useful for keeping sessions alive on firewalls, security portals, and monitoring
 - **Privacy-first** — runs entirely locally. No tracking, no uploads. Stored data is limited to URL, title, and the min/max seconds (for restoration).
 - **i18n** — English (`en`) and Traditional Chinese (`zh_TW`).
 
+## Notes & limitations
+
+- **Background-tab timing.** The countdown timer runs in the page (content script). Browsers heavily throttle timers in background (non-active) tabs, so a short interval (e.g. 30s) may not fire on time while the tab sits in the background — in practice it can stretch toward ~1 minute. The background watchdog still recovers stalled tabs, but it does not correct this drift. For precise short intervals, keep the tab in the foreground.
+- **Restricted pages.** Browser-internal pages (`chrome://`, `about:`, the extensions store, etc.) cannot run content scripts; the popup disables its controls and shows a notice on those tabs.
+
 ## Project structure
 
 ```
 manifest.json     # MV3 manifest (source / Chrome)
 background.js     # Service worker: state, messaging, watchdog, startup restore
 content.js        # Injected per page: countdown UI + reload trigger
+utils.js          # Shared pure helpers (url match, validation, delay) — unit-tested
 popup.html/js/css # Toolbar popup UI
 _locales/         # i18n message catalogs (en, zh_TW)
 icons/            # 48 / 96 / 128 px icons
 build.js          # Builds dist/chrome and dist/firefox
+test/             # node:test unit tests for utils.js
 ```
 
 ## Build
@@ -34,6 +41,7 @@ Requires Node.js. No dependencies.
 
 ```bash
 npm run build      # or: node build.js
+npm test           # run unit tests (node:test, no deps)
 ```
 
 This regenerates `dist/chrome/` and `dist/firefox/` (the Firefox manifest is adapted automatically: `browser_specific_settings` + `background.scripts`).

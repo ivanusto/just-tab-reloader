@@ -7,34 +7,37 @@
 <body>
     <div class="container">
         <h2 data-i18n="extName">Just Tab Reloader</h2>
-        
+
+        <div id="restricted-msg" class="restricted-note restricted-hidden" data-i18n="restrictedPage">此頁面不支援自動重讀。</div>
+
         <div class="setting-group status-card">
-            <div class="label" data-i18n="statusLabel">自動重讀狀態</div>
+            <div class="label" id="status-label" data-i18n="statusLabel">自動重讀狀態</div>
             <label class="switch">
-                <input type="checkbox" id="toggle-switch">
+                <input type="checkbox" id="toggle-switch" aria-labelledby="status-label">
                 <span class="slider"></span>
             </label>
         </div>
 
         <div class="setting-group">
-            <div class="label" data-i18n="intervalLabel">隨機區間 (秒)</div>
+            <div class="label" id="interval-label" data-i18n="intervalLabel">隨機區間 (秒)</div>
             <div class="inputs">
-                <input type="number" id="min-sec" min="1" max="86400" placeholder="Min">
+                <input type="number" id="min-sec" min="1" max="86400" placeholder="Min" aria-label="Min" aria-labelledby="interval-label">
                 <span>-</span>
-                <input type="number" id="max-sec" min="1" max="86400" placeholder="Max">
+                <input type="number" id="max-sec" min="1" max="86400" placeholder="Max" aria-label="Max" aria-labelledby="interval-label">
             </div>
             <button id="save-btn" data-i18n="saveBtn">儲存設定</button>
-            <div id="save-msg" class="msg-hidden" data-i18n="saveMsg">已儲存！</div>
+            <div id="save-msg" class="msg-hidden" data-i18n="saveMsg" role="status" aria-live="polite">已儲存！</div>
         </div>
 
         <div class="setting-group status-card">
-            <div class="label" data-i18n="autoReopenLabel">啟動時自動重開分頁</div>
+            <div class="label" id="auto-reopen-label" data-i18n="autoReopenLabel">啟動時自動重開分頁</div>
             <label class="switch">
-                <input type="checkbox" id="auto-reopen-switch">
+                <input type="checkbox" id="auto-reopen-switch" aria-labelledby="auto-reopen-label">
                 <span class="slider"></span>
             </label>
         </div>
     </div>
+    <script src="utils.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>

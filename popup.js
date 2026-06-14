@@ -1,4 +1,5 @@
 // 預設的隨機區間（秒），需與 background.js 的預設值一致
+// isRestrictedUrl / validateInterval 來自 utils.js（於 popup.html 中先行載入）。
 const DEFAULT_MIN = 30;
 const DEFAULT_MAX = 35;
 
@@ -29,15 +30,27 @@ document.addEventListener('DOMContentLoaded', async () => {
     const saveBtn = document.getElementById('save-btn');
     const saveMsg = document.getElementById('save-msg');
 
+    // 受限頁面無法注入 content script，自動重讀無法運作。
+    // 停用所有控制項並顯示提示，避免使用者誤以為已啟用。
+    if (isRestrictedUrl(tab.url)) {
+        const note = document.getElementById('restricted-msg');
+        if (note) note.classList.remove('restricted-hidden');
+        toggleSwitch.disabled = true;
+        minInput.disabled = true;
+        maxInput.disabled = true;
+        saveBtn.disabled = true;
+        const autoReopen = document.getElementById('auto-reopen-switch');
+        if (autoReopen) autoReopen.disabled = true;
+        return;
+    }
+
     // 載入初始設定
     chrome.runtime.sendMessage({ action: "get_status", tabId: tab.id }, (response) => {
-        if (response) {
-            // 預設將 UI 上的核取框勾選 (Checked)
-            // 這樣使用者只要點開 popup，就可以直接點「儲存設定」來啟動，不需手動去切換開關。
-            toggleSwitch.checked = true;
-            minInput.value = response.min;
-            maxInput.value = response.max;
-        }
+        if (chrome.runtime.lastError || !response) return;
+        // 讓開關如實反映此分頁目前是否已啟用自動重讀（狀態指示，而非便利開關）。
+        toggleSwitch.checked = !!response.enabled;
+        minInput.value = response.min;
+        maxInput.value = response.max;
     });
 
     // 載入啟動重開設定
@@ -82,22 +95,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             maxInput.value = maxStr;
         }
 
-        const intRegex = /^[1-9]\d*$/;
-        if (!intRegex.test(minStr) || !intRegex.test(maxStr)) {
+        // 核心驗證邏輯與 background 共用（utils.js 的 validateInterval）
+        const result = validateInterval(minStr, maxStr);
+        if (result.error === 'bad') {
             alert(chrome.i18n.getMessage("alertBadInput"));
             return null;
         }
-        const min = parseInt(minStr, 10);
-        const max = parseInt(maxStr, 10);
-        if (min < 1 || min > 86400 || max < 1 || max > 86400) {
+        if (result.error === 'bounds') {
             alert(chrome.i18n.getMessage("alertOutOfBounds"));
             return null;
         }
-        if (max < min) {
+        if (result.error === 'minmax') {
             alert(chrome.i18n.getMessage("alertMinMaxError"));
             return null;
         }
-        return { min, max };
+        return { min: result.min, max: result.max };
     };
 
     // 處理開關切換事件

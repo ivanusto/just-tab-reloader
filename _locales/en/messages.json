@@ -39,6 +39,10 @@
     "message": "Minimum value cannot be greater than the maximum value.",
     "description": "Alert when min value is larger than max value"
   },
+  "restrictedPage": {
+    "message": "Auto-reload is not available on this page (browser pages, the extensions store, etc.).",
+    "description": "Notice shown in popup when the active tab is a restricted page"
+  },
   "countdownText": {
     "message": "Auto-Reload: $SECONDS$s",
     "description": "Floating countdown text in content script",

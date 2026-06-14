@@ -83,6 +83,32 @@ button:hover {
     background-color: #0056b3;
 }
 
+button:disabled,
+input:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+button:disabled:hover {
+    background-color: #007bff;
+}
+
+.restricted-note {
+    background: #fff3cd;
+    color: #856404;
+    border: 1px solid #ffeeba;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 13px;
+    line-height: 1.4;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.restricted-hidden {
+    display: none;
+}
+
 .msg-hidden {
     opacity: 0;
     height: 0;
@@ -144,4 +170,33 @@ input:checked + .slider {
 
 input:checked + .slider:before {
     transform: translateX(20px);
+}
+
+/* 深色模式：跟隨系統偏好 */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+    }
+    h2 {
+        color: #f0f0f0;
+        border-bottom-color: #3a3a3a;
+    }
+    .setting-group {
+        background: #2a2a2a;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+    }
+    input[type="number"] {
+        background-color: #1e1e1e;
+        color: #e0e0e0;
+        border-color: #4a4a4a;
+    }
+    .slider {
+        background-color: #555;
+    }
+    .restricted-note {
+        background: #3d3522;
+        color: #f0d999;
+        border-color: #5c4f2a;
+    }
 }

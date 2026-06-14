@@ -1,0 +1,117 @@
+# =========================================================================
+# Just Tab Reloader Store Listing (v2.1)
+# =========================================================================
+
+# -------------------------------------------------------------------------
+# English Version (英文版商店說明)
+# -------------------------------------------------------------------------
+
+Extension Name:
+Just Tab Reloader
+
+Short Description:
+Auto-refresh tabs within a randomized time interval. Minimalist, lightweight, and robust.
+
+Detailed Description:
+Just Tab Reloader is a minimalist and lightweight browser extension designed for users who need to refresh webpages periodically. For example, it is particularly useful for keeping connections alive on firewalls, cybersecurity portals, or monitoring dashboards that automatically log you out due to inactivity. 
+
+By setting a specific time range, you can reload pages to maintain active sessions. The extension automatically and randomly reloads the page (bypassing the cache) within your defined interval, mimicking natural browsing behavior.
+
+[Key Features]
+
+- Simple to Use: One-click toggle. The status switch is checked by default in the popup UI for instant, one-click setup.
+- Random Time Intervals: Set the "Minimum Seconds" and "Maximum Seconds." The extension randomly selects a time within this range for each reload. It also remembers your last used settings to save you typing.
+- Startup Tab Restoration (New in v2.1): An opt-in feature to automatically reopen your previously reloading tabs in the background when the browser restarts, resuming their reload cycles seamlessly.
+- Watchdog Halt Prevention (New in v2.1): A background watchdog timer running every minute. It automatically detects and recovers reloaders that halted due to computer sleep, network dropouts, or temporary page errors.
+- Hard Reload: Every refresh bypasses the browser cache (bypassCache) to guarantee you always see the latest content.
+- Independent Tab Settings: Enable reloaders on multiple tabs simultaneously with completely independent configurations.
+- Lightweight & Secure: Built on Manifest V3. It only runs when needed and consumes zero idle background memory.
+
+[Use Cases]
+- Monitoring the latest updates or announcements on webpages.
+- Preventing automatic logouts due to idle timeouts on cyber portals.
+- Keeping an eye on inventory, seat bookings, or stock updates.
+
+[Privacy Policy]
+Just Tab Reloader operates exclusively locally. It does not collect, track, or upload any personal data, session tokens, or browsing history. Stored settings are strictly limited to the URL, title, and min/max seconds for restoration.
+
+# -------------------------------------------------------------------------
+# Traditional Chinese Version (繁體中文版商店說明)
+# -------------------------------------------------------------------------
+
+擴充功能名稱：
+Just Tab Reloader - 網頁自動重新整理器
+
+簡短說明：
+自動在您設定的隨機時間區間內重新整理網頁，簡單、輕量、防斷線卡死。
+
+詳細說明：
+Just Tab Reloader 是一個極簡且輕量級的瀏覽器擴充功能，檔案大小僅約 25 KB，維持 Just 程式家族簡潔實用的風格。
+
+本套件專為需要定期重新整理網頁的使用者所設計，例如防火牆、資安網頁、監控程式或後台管理頁面——這類網頁常因長時間沒有动作而被系統自動登出。透過設定一個隨機的秒數區間，即可自動模擬人工作業般重讀頁面以維持連線，並確保隨時呈現最新的頁面資訊。
+
+【主要特色】
+- 簡單易用：一鍵開關。點開 Popup 時開關已預設勾選，一鍵儲存即可直接啟用。
+- 隨機時間間隔：設定「最小秒數」與「最大秒數」，系統會在此範圍內隨機挑選秒數進行重讀，重整行為更為自然。新頁面會自動代入上一次使用的數值，省去重複輸入。
+- 啟動時自動重開分頁 (v2.1 新增)：可開啟「啟動時自動重開分頁」設定。當瀏覽器重開或開機時，套件會自動在背景開回上次重讀的網址並繼續重整，再也不怕分頁遺失。
+- Watchdog 卡死救援 (v2.1 新增)：實作背景 Watchdog 監控機制。當電腦睡眠喚醒、斷網或載入失敗時，監控器會在 1 分鐘內自動偵測並重新強制載入，確保重讀服務不中斷。
+- 強制重讀：每次整理皆採用無快取載入 (Hard Reload / bypassCache)，保證畫面資料是最新的。
+- 獨立分頁設定：可針對多個不同分頁開啟不同時間的重讀設定，彼此獨立運作、互不干擾。
+- 輕量省電、安全無毒：基於最新 Manifest V3 架構開發，平時 Service Worker 自動休眠不佔用系統記憶體，無後門。
+
+【使用情境】
+- 監控網頁最新動態、財經看盤資訊、票券庫存或系統公告。
+- 防止後台網頁因長時間無動作而被自動登出。
+- 監控伺服器健康狀態頁面。
+
+【隱私聲明】
+Just Tab Reloader 僅在本地端運作，並不會收集、追蹤或上傳您的任何個人資料、Session、Cookies 或瀏覽紀錄。儲存的資料僅限於分頁的網址、標題與設定秒數，純屬還原分頁用途。
+
+# -------------------------------------------------------------------------
+# Release Changelog (版本更新歷史)
+# -------------------------------------------------------------------------
+
+v2.1 (Current)
+- Added full multilingual support (i18n) for English (en) and Traditional Chinese (zh-TW).
+- Added "Auto-reopen reloading tabs on startup" feature with a toggle in popup.
+- Implemented background Watchdog timer using chrome.alarms to recover from computer sleep, network issues, or page loading errors.
+- Improved UX by defaulting the status switch to checked when opening popup on new tabs.
+- Version bumped to 2.1.
+
+v2.0
+- Refactored background worker lifecycles to prevent active reload status loss.
+- Fixed a race condition where settings were cleared upon Service Worker sleep.
+
+v1.9
+- Reloader Halt Prevention added.
+- UX Optimization.
+- Startup Tab Restoration.
+
+v1.8
+- Input Field Validation Fix: Blocked invalid non-integer keys ('e', 'E', '.', '+', '-') from being input.
+- Browser Restart State Loss Fix.
+
+v1.5
+- Added validateInputs helper.
+- Added validation check under the "update_tab_settings" message handler as a defensive security layer.
+
+v1.4
+- Fixed issues of setTimeout.
+- Regex + bounds check added for inputs.
+- Maximum seconds set to 86,400 (1 <= value <= 86,400).
+
+v1.3
+- Fixed orphaned tabs issues (when the browser closes or crashes abnormally). Added an automated cleanup mechanism in background.js.
+
+v1.2
+- Added three size icons (48, 96, 128 px), updated background.js.
+
+v1.1
+- Icon file path issues fixed.
+
+# -------------------------------------------------------------------------
+# Store Links (商店連結)
+# -------------------------------------------------------------------------
+
+Firefox Add-ons:
+https://addons.mozilla.org/zh-TW/firefox/addon/just-tab-reloader/

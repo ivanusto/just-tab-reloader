@@ -1,0 +1,51 @@
+{
+  "extName": {
+    "message": "Just Tab Reloader",
+    "description": "The extension name"
+  },
+  "extDescription": {
+    "message": "Auto-refresh tabs within a randomized time interval.",
+    "description": "The extension description"
+  },
+  "statusLabel": {
+    "message": "Auto-Reload Status",
+    "description": "Label for the auto-reload status switch"
+  },
+  "intervalLabel": {
+    "message": "Random Interval (s)",
+    "description": "Label for the random reload interval inputs"
+  },
+  "saveBtn": {
+    "message": "Save Settings",
+    "description": "Button text to save settings"
+  },
+  "saveMsg": {
+    "message": "Saved!",
+    "description": "Success message when settings are saved"
+  },
+  "autoReopenLabel": {
+    "message": "Auto-reopen on startup",
+    "description": "Label for the auto-reopen on startup switch"
+  },
+  "alertBadInput": {
+    "message": "Please enter a valid positive integer in seconds (no decimals, signs, or empty values).",
+    "description": "Alert when inputs are not positive integers"
+  },
+  "alertOutOfBounds": {
+    "message": "Seconds out of bounds: must be between 1 and 86,400 seconds (max 24 hours).",
+    "description": "Alert when values are out of bounds (1-86400)"
+  },
+  "alertMinMaxError": {
+    "message": "Minimum value cannot be greater than the maximum value.",
+    "description": "Alert when min value is larger than max value"
+  },
+  "countdownText": {
+    "message": "Auto-Reload: $SECONDS$s",
+    "description": "Floating countdown text in content script",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      }
+    }
+  }
+}

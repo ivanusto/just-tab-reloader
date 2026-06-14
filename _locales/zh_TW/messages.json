@@ -1,0 +1,51 @@
+{
+  "extName": {
+    "message": "Just Tab Reloader",
+    "description": "The extension name"
+  },
+  "extDescription": {
+    "message": "自動在隨機設定的時間區間內重新整理分頁。",
+    "description": "The extension description"
+  },
+  "statusLabel": {
+    "message": "自動重讀狀態",
+    "description": "Label for the auto-reload status switch"
+  },
+  "intervalLabel": {
+    "message": "隨機區間 (秒)",
+    "description": "Label for the random reload interval inputs"
+  },
+  "saveBtn": {
+    "message": "儲存設定",
+    "description": "Button text to save settings"
+  },
+  "saveMsg": {
+    "message": "已儲存！",
+    "description": "Success message when settings are saved"
+  },
+  "autoReopenLabel": {
+    "message": "啟動時自動重開分頁",
+    "description": "Label for the auto-reopen on startup switch"
+  },
+  "alertBadInput": {
+    "message": "請輸入有效的正整數秒數（不能含有小數點、符號或為空）。",
+    "description": "Alert when inputs are not positive integers"
+  },
+  "alertOutOfBounds": {
+    "message": "秒數設定超出範圍：必須介於 1 到 86,400 秒之間（最大 24 小時）。",
+    "description": "Alert when values are out of bounds (1-86400)"
+  },
+  "alertMinMaxError": {
+    "message": "最小值不能大於最大值。",
+    "description": "Alert when min value is larger than max value"
+  },
+  "countdownText": {
+    "message": "自動重讀: $SECONDS$s",
+    "description": "Floating countdown text in content script",
+    "placeholders": {
+      "seconds": {
+        "content": "$1"
+      }
+    }
+  }
+}

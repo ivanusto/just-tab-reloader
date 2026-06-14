@@ -1,0 +1,15 @@
+# Build output (regenerated via `npm run build`)
+/dist/
+
+# Packaged artifacts
+*.zip
+*.xpi
+*.crx
+
+# Dependencies
+/node_modules/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
+*.log

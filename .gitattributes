@@ -1,0 +1,3 @@
+# Normalize line endings to LF in the repository; binaries are detected automatically.
+* text=auto eol=lf
+*.png binary

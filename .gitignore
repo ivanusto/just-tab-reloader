@@ -5,6 +5,7 @@
 *.zip
 *.xpi
 *.crx
+publish.config.json
 
 # Dependencies
 /node_modules/

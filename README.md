@@ -51,9 +51,10 @@ This regenerates `dist/chrome/` and `dist/firefox/` (the Firefox manifest is ada
 - **Chrome** — `chrome://extensions` → enable *Developer mode* → *Load unpacked* → select `dist/chrome`.
 - **Firefox** — `about:debugging` → *This Firefox* → *Load Temporary Add-on* → select any file in `dist/firefox`.
 
-## Links
+## Store Links
 
-- Firefox Add-ons: https://addons.mozilla.org/firefox/addon/just-tab-reloader/
+- **Chrome Web Store:** [Just Tab Reloader](https://chromewebstore.google.com/detail/just-tab-reloader)
+- **Firefox Add-ons (AMO):** [Just Tab Reloader](https://addons.mozilla.org/firefox/addon/just-tab-reloader/)
 
 ## License
 

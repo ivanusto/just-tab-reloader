@@ -55,7 +55,11 @@ function createZipForPlatform(platform, version) {
   }
 
   console.log(`[${platform}] 打包 ${zipPath}...`);
-  execSync(`tar -caf "${zipPath}" -C "${distPlatformDir}" .`);
+  if (process.platform === 'win32') {
+    execSync(`tar -caf "${zipPath}" -C "${distPlatformDir}" .`);
+  } else {
+    execSync(`cd "${distPlatformDir}" && zip -r -X "${zipPath}" .`);
+  }
   return zipPath;
 }
 

@@ -146,15 +146,16 @@ async function handleUpdateSettings(request) {
     const enabled = request.enabled;
     let min = parseInt(request.min, 10);
     let max = parseInt(request.max, 10);
+    let hasValidInterval = false;
 
-    // 啟用時做防禦性邊界與格式檢查（與 popup 共用 utils.js 的 validateInterval）
-    if (enabled) {
-        const v = validateInterval(request.min, request.max);
-        if (v.error) {
-            return { success: false, error: "Invalid parameter bounds" };
-        }
+    // 做防禦性邊界與格式檢查（與 popup 共用 utils.js 的 validateInterval）
+    const v = validateInterval(request.min, request.max);
+    if (!v.error) {
         min = v.min;
         max = v.max;
+        hasValidInterval = true;
+    } else if (enabled) {
+        return { success: false, error: "Invalid parameter bounds" };
     }
 
     return withLock(async () => {
@@ -175,12 +176,16 @@ async function handleUpdateSettings(request) {
                 lastActive: Date.now()
             };
 
-            await storageSet({
+            const toSet = {
                 activeTabs: activeTabs,
-                activeUuids: activeUuids,
-                defaultMin: min,
-                defaultMax: max
-            });
+                activeUuids: activeUuids
+            };
+            if (hasValidInterval) {
+                toSet.defaultMin = min;
+                toSet.defaultMax = max;
+            }
+
+            await storageSet(toSet);
             updateBadge(activeTabs);
             return { success: true };
         }
@@ -192,7 +197,13 @@ async function handleUpdateSettings(request) {
             if (tabInfo.uuid) delete activeUuids[tabInfo.uuid];
         }
 
-        await storageSet({ activeTabs: activeTabs, activeUuids: activeUuids });
+        const toSet = { activeTabs: activeTabs, activeUuids: activeUuids };
+        if (hasValidInterval) {
+            toSet.defaultMin = min;
+            toSet.defaultMax = max;
+        }
+
+        await storageSet(toSet);
         updateBadge(activeTabs);
         // 通知 content.js 停用重讀並清除 UI（忽略 content.js 尚未加載或分頁已關閉時的錯誤）
         chrome.tabs.sendMessage(tabId, { action: "stop_reloader" }).catch(() => {});

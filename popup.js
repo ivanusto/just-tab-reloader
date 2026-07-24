@@ -47,10 +47,32 @@ document.addEventListener('DOMContentLoaded', async () => {
     // 載入初始設定
     chrome.runtime.sendMessage({ action: "get_status", tabId: tab.id }, (response) => {
         if (chrome.runtime.lastError || !response) return;
-        // 讓開關如實反映此分頁目前是否已啟用自動重讀（狀態指示，而非便利開關）。
-        toggleSwitch.checked = !!response.enabled;
+
         minInput.value = response.min;
         maxInput.value = response.max;
+
+        if (response.enabled) {
+            toggleSwitch.checked = true;
+        } else {
+            // 點擊擴充功能按鈕開啟分頁彈窗時，預設開啟自動重讀
+            toggleSwitch.checked = true;
+            const validation = validateInputs();
+            const min = validation ? validation.min : response.min;
+            const max = validation ? validation.max : response.max;
+
+            chrome.runtime.sendMessage({ 
+                action: "update_tab_settings", 
+                tabId: tab.id, 
+                enabled: true,
+                min: min,
+                max: max,
+                url: tab.url,
+                title: tab.title
+            }, () => {
+                // 強制重讀以開始循環
+                chrome.tabs.reload(tab.id, { bypassCache: true });
+            });
+        }
     });
 
     // 載入啟動重開設定
@@ -67,13 +89,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
 
-    const blockInvalidKeys = (e) => {
+    // 鍵盤輸入事件：禁止非法字元，並支援 Enter 鍵快速儲存
+    const handleInputKeyDown = (e) => {
         if (['e', 'E', '+', '-', '.'].includes(e.key)) {
             e.preventDefault();
+        } else if (e.key === 'Enter') {
+            e.preventDefault();
+            saveBtn.click();
         }
     };
-    minInput.addEventListener('keydown', blockInvalidKeys);
-    maxInput.addEventListener('keydown', blockInvalidKeys);
+    minInput.addEventListener('keydown', handleInputKeyDown);
+    maxInput.addEventListener('keydown', handleInputKeyDown);
 
     // 驗證輸入格式與範圍的輔助函式
     const validateInputs = () => {

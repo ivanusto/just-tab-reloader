@@ -51,5 +51,9 @@
         "content": "$1"
       }
     }
+  },
+  "countdownTooltip": {
+    "message": "自動重讀中（滑鼠懸停半透明，雙擊可隱藏）",
+    "description": "Tooltip for floating countdown badge"
   }
 }

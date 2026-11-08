@@ -17,3 +17,6 @@ Thumbs.db
 
 # Claude Code memory (synced between machines via QNAP QSync, not git)
 claude-memory/
+
+# Claude Code per-user permissions (may contain secrets)
+.claude/settings.local.json
